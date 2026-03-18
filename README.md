@@ -1,66 +1,120 @@
-⚔️ RPG POO:
-Um jogo de RPG por turnos com interface gráfica, desenvolvido inteiramente em Python para exercitar conceitos de Programação Orientada a Objetos (POO).
+# ⚔️ RPG POO
 
-Este projeto simula uma aventura clássica onde o jogador escolhe uma classe, enfrenta monstros, gerencia recursos e sobe de nível, tudo isso em uma interface construída com a biblioteca tkinter.
+> Um RPG de combate por turnos feito em Python com Tkinter — criado para praticar **Programação Orientada a Objetos** de um jeito divertido.
 
+---
 
-🚀 Funcionalidades
-Sistema de Classes: Escolha entre Guerreiro, Mago ou Ladino, cada um com atributos e habilidades únicas.
+## 📖 Sobre o Projeto
 
-Combate por Turnos: Sistema de dano calculado com base em ataque, defesa e vantagens elementais (Fogo > Gelo).
+O **RPG POO** é um jogo de RPG desktop com interface gráfica onde você escolhe uma classe, explora dungeons, enfrenta inimigos, sobe de nível e coleta itens. Cada mecânica do jogo foi pensada para exercitar um conceito diferente de POO: herança, polimorfismo, encapsulamento, classes abstratas e propriedades.
 
-Progressão: Ganho de XP, subida de nível e evolução de atributos.
+É simples, bagunçado nos cantos, e completamente funcional — exatamente como deve ser um projeto de aprendizado.
 
-Eventos Aleatórios: Encontros com mercadores, baús de tesouro, armadilhas e até charadas propostas por um sapo gigante!
+---
 
-Gerenciamento de Inventário: Equipar armas, armaduras e usar poções de cura ou mana.
+## 🧠 Conceitos de POO Praticados
 
-Interface Colorida: Log de combate dinâmico com cores para destacar danos, curas e eventos críticos.
+| Conceito | Onde aparece no código |
+|---|---|
+| **Classe Abstrata** | `Personagem` (ABC) com método `atacar()` abstrato |
+| **Herança** | `Jogador` e `Inimigo` herdam de `Personagem`; inimigos específicos herdam de `Inimigo` |
+| **Polimorfismo** | Cada inimigo tem seu próprio `atacar()` — `Slime` se regenera, `LoboMutante` ataca duas vezes |
+| **Encapsulamento** | Stats do jogador protegidos; bônus de equipamentos calculados via `@property` |
+| **Composição** | `Jogador` contém instâncias de `Item`, `Habilidade` e equipamentos |
+| **Properties** | `hp_max`, `mana_max`, `atk_total`, `dfn_total` com bônus dinâmicos de equipamentos |
 
+---
 
-🧠 Conceitos de POO Aplicados
-O objetivo principal deste projeto foi a prática de:
+## 🎮 Funcionalidades
 
-Abstração: Uso da classe Personagem como uma ABC (Abstract Base Class).
+- **3 classes jogáveis** — Guerreiro, Mago e Ladino, cada uma com atributos e habilidades únicas
+- **Sistema de combate por turnos** com ataque básico, habilidades e uso de itens
+- **5 tipos de inimigos** + 2 chefões com comportamentos distintos
+- **Sistema de elementos** com fraquezas e resistências (fogo × gelo)
+- **Eventos aleatórios** ao explorar: baú, armadilha, descanso, mercador, santuário e enigma
+- **Inventário completo** com poções, bombas, elixires e equipamentos empilháveis
+- **Sistema de equipamentos** em 3 slots — arma, armadura e acessório
+- **Level up** com escalonamento de atributos por classe
+- **Interface gráfica** com barras de HP, MP e XP em tempo real
 
-Herança: Criação de diversos inimigos (Goblin, Orc, Dragão) herdando da classe base.
+---
 
-Encapsulamento: Gerenciamento de atributos como HP e Mana através de properties.
+## 🏹 Classes Disponíveis
 
-Polimorfismo: Métodos de ataque que se comportam de forma diferente dependendo do tipo de inimigo ou classe do jogador.
+| Classe | HP | ATK | DFN | Mana | Destaque |
+|---|---|---|---|---|---|
+| ⚔️ Guerreiro | 50 | 12 | 4 | 15 | Maior HP e defesa |
+| 🧙 Mago | 35 | 4 | 1 | 50 | Magias poderosas de fogo e gelo |
+| 🗡️ Ladino | 40 | 10 | 2 | 20 | Crítico (35%) e 85% de chance de fuga |
 
+---
 
-🛠️ Como Instalar e Jogar
-Pré-requisitos
-Você só precisa do Python 3.x instalado no seu computador. A biblioteca de interface gráfica tkinter geralmente já vem inclusa na instalação padrão do Python.
+## 👾 Inimigos
 
-Passo a Passo
-Baixe o código:
-Clone o repositório ou copie o código para um arquivo chamado main.py.
+| Inimigo | Elemento | Comportamento Especial |
+|---|---|---|
+| Goblin | Neutro | — |
+| Slime | Neutro | Regenera HP após atacar |
+| Orc | Neutro | — |
+| Esqueleto | Neutro | Alta defesa |
+| Lobo Mutante | Neutro | 25% de chance de atacar duas vezes |
+| **Rei Orc (Chefe)** | 🔥 Fogo | Golpe Esmagador garantido |
+| **Dragão (Chefe)** | 🔥 Fogo | Stats elevados |
 
-Bash
-git clone https://github.com/seu-usuario/rpg-poo-python.git
-cd rpg-poo-python
-Execute o jogo:
-No terminal ou prompt de comando, dentro da pasta do arquivo, digite:
+Chefões aparecem a cada **5 batalhas vencidas**.
 
-Bash
-python main.py
-Como Jogar
-Criação: Digite o nome do seu herói e escolha sua classe inicial.
+---
 
+## 🗺️ Fluxo de Jogo
 
-Exploração: Clique em "Explorar..." para avançar na jornada. Você pode encontrar um monstro ou um evento pacífico.
+```mermaid
+flowchart LR
+    A["Criar Personagem"] --> B["Explorar"]
+    B --> C{"Evento Aleatório"}
+    C -->|"60% chance"| D["Combate"]
+    C -->|"40% chance"| E["Evento"]
+    D --> F{"Resultado"}
+    F -->|"Vitória"| G["XP + Ouro + Drop"]
+    F -->|"Derrota"| H["Game Over"]
+    F -->|"Fuga"| B
+    G --> B
+    E --> I["Baú / Armadilha / Mercador / Santuário / Enigma / Descanso"]
+    I --> B
+```
 
-Combate: * Use Atacar para um golpe físico simples.
+---
 
-Use Habilidades para gastar Mana e desferir golpes poderosos ou se curar.
+## ⚙️ Requisitos
 
-Use Inventário para usar itens ou trocar seus equipamentos.
+- Python **3.8+**
+- `tkinter` — já incluído na instalação padrão do Python
 
-Evolução: Fique de olho na barra de XP. A cada 5 batalhas vencidas, prepare-se para um Chefe!
+> ⚠️ No Linux, pode ser necessário instalar separadamente:
+> ```bash
+> sudo apt-get install python3-tk
+> ```
 
-📜 Licença
-Este projeto é de código aberto sob a licença MIT. Sinta-se à vontade para clonar, modificar e melhorar o sistema!
+---
 
-Desenvolvido com ☕ e Python para fins de estudo.
+## 🚀 Como Rodar
+
+```bash
+# Clone ou baixe o arquivo
+git clone https://github.com/seu-usuario/rpg-poo.git
+cd rpg-poo
+
+# Execute diretamente
+python rpg_poo.py
+```
+
+Nenhuma dependência externa necessária.
+
+---
+
+## 📝 Notas de Desenvolvimento
+
+Este projeto **não tem como objetivo ser um jogo polido** — ele foi feito para fixar conceitos de POO enquanto construía algo que desse vontade de rodar e testar.
+
+---
+
+*Feito com Python, Tkinter e muita vontade de não estudar POO pelo livro.* 🐍
