@@ -1,6 +1,6 @@
 # ⚔️ RPG POO
 
-**[Versão em inglês](README.md)**
+**[Versão em inglês](README-ENGLISH.md)**
 
 > Um RPG de combate por turnos feito em Python com Tkinter — criado para praticar **Programação Orientada a Objetos** de um jeito divertido.
 
